@@ -136,7 +136,6 @@ namespace sb3_to_C__converter__extra_features_
             JSONFile = Path.ChangeExtension(NewFileInNewFolder, ".json");
             File.Copy(NewFileInNewFolder, JSONFile, true);
             Progress.Value = 50;
-            File.Delete(NewFileInNewFolder);
             //Read The JSON
             File.ReadAllText(JSONFile);
             //Find Image base64 string
