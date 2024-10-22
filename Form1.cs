@@ -120,7 +120,9 @@ namespace sb3_to_C__converter__extra_features_
             zipfile = Path.ChangeExtension(NewFileInNewFolder, ".zip");
             File.Copy(NewFileInNewFolder, zipfile, true);
             Progress.Value = 10;
+            ZipFile.ExtractToDirectory(zipfile, OutputF);
             
+            Progress.Value = 20;
             //do the sb2(json to C# class converter) script
         }
 
