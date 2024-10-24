@@ -145,20 +145,47 @@ namespace sb3_to_C__converter__extra_features_
             
             foreach( string line in Lines)
             {
-                if (!string.IsNullOrWhiteSpace(line))
-                {
-                    
-                }
-                else
-                {
-                    string FileName;
-                    double NumberN = +1;
-                    FileName = NumberN + "png.png";
-                    //var lineconverted = JsonConvert.DeserializeObject<>(JSONFile);
-                    //byte[] PNGBytes = Convert.FromBase64String(lineconverted);
-                    
-                    //File.WriteAllBytes(FileName, PNGBytes);
-                }
+                    Regex ImageRegex = new Regex(imagepattern, RegexOptions.IgnoreCase | RegexOptions.IgnorePatternWhitespace);
+    if (ImageRegex.IsMatch(line))
+    {
+        x++;
+        string ImageName = x + ".png";
+        string images = Path.Combine(OutputF, ImageName);
+        string Base64StringEdit1 = line.Replace("\"@image\":", string.Empty).Trim();
+        string Base64StringEdit2 = Base64StringEdit1.Replace("data:image/png;base64,", string.Empty).Trim();
+        string Base64StringEdit3 = Base64StringEdit2.Replace(":", string.Empty).Trim();
+        string Base64StringEdit4 = Base64StringEdit3.Trim('\"').Trim();
+        byte[] ImageBytes = Convert.FromBase64String(Base64StringEdit4);
+        File.WriteAllBytes(images, ImageBytes);
+    }
+
+    else
+    {
+        continue;
+    }
+}
+
+foreach (string line in Lines)
+{
+    Regex SoundRegex = new Regex(soundpattern, RegexOptions.IgnoreCase | RegexOptions.IgnorePatternWhitespace);
+    if (SoundRegex.IsMatch(line))
+    {
+        x++;
+        string SoundName = x + ".wav";
+        string sound = Path.Combine(OutputF, SoundName);
+        string Base64StringEdit1 = line.Replace("\"@sound\":", string.Empty).Trim();
+        string Base64StringEdit2 = Base64StringEdit1.Replace("data:audio/x-wav;base64,", string.Empty).Trim();
+        string Base64StringEdit3 = Base64StringEdit2.Replace(":", string.Empty).Trim();
+        string Base64StringEdit4 = Base64StringEdit3.Trim('\"').Trim();
+        byte[] SoundBytes = Convert.FromBase64String(Base64StringEdit4);
+        File.WriteAllBytes(sound, SoundBytes);
+    }
+
+    else
+    {
+        continue;
+    }
+}
             }
             //deserialize it
             //use it as a byte
